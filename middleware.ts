@@ -7,7 +7,10 @@ export default withAuth(
     if (req.nextUrl.pathname.startsWith('/admin')) {
       // Check if user has admin role
       if (req.nextauth.token?.role !== 'ADMIN') {
-        return NextResponse.redirect(new URL('/auth/signin', req.url))
+        // Redirect to home page with error message for non-admin users
+        const url = new URL('/', req.url)
+        url.searchParams.set('error', 'access_denied')
+        return NextResponse.redirect(url)
       }
     }
   },
@@ -18,12 +21,16 @@ export default withAuth(
         if (req.nextUrl.pathname.startsWith('/admin')) {
           return token?.role === 'ADMIN'
         }
-        return !!token
+        // For other protected routes, just check if user is authenticated
+        return true
       },
     },
   }
 )
 
 export const config = {
-  matcher: ['/admin/:path*']
+  matcher: [
+    '/admin/:path*',
+    // Add other protected routes here if needed
+  ]
 }

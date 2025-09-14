@@ -108,9 +108,9 @@ export default function NewProductPage() {
   };
 
   return (
-    <div className="px-8">
+    <div className="px-4 lg:px-8">
       <div className="flex items-center justify-between mb-8">
-        <div className="flex items-center space-x-4">
+        <div className="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-4">
           <Button variant="ghost" size="sm" asChild>
             <Link href="/admin/products">
               <ArrowLeft className="mr-2 h-4 w-4" />
@@ -118,21 +118,21 @@ export default function NewProductPage() {
             </Link>
           </Button>
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">Add New Product</h1>
+            <h1 className="text-2xl lg:text-3xl font-bold text-gray-900">Add New Product</h1>
             <p className="text-gray-600">Create a new product for your store</p>
           </div>
         </div>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-6">
           {/* Main Content */}
           <div className="lg:col-span-2 space-y-6">
             <Card>
               <CardHeader>
                 <CardTitle>Product Information</CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4">
+              <CardContent className="space-y-4 p-4 lg:p-6">
                 <div>
                   <Label htmlFor="name">Product Name *</Label>
                   <Input
@@ -182,7 +182,7 @@ export default function NewProductPage() {
               <CardHeader>
                 <CardTitle>Product Images</CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4">
+              <CardContent className="space-y-4 p-4 lg:p-6">
                 {images.map((image, index) => (
                   <div key={index} className="flex items-center space-x-2">
                     <Input
@@ -221,7 +221,7 @@ export default function NewProductPage() {
               <CardHeader>
                 <CardTitle>Pricing</CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4">
+              <CardContent className="space-y-4 p-4 lg:p-6">
                 <div>
                   <Label htmlFor="price">Price *</Label>
                   <Input
@@ -252,7 +252,7 @@ export default function NewProductPage() {
               <CardHeader>
                 <CardTitle>Organization</CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4">
+              <CardContent className="space-y-4 p-4 lg:p-6">
                 <div>
                   <Label htmlFor="category">Category *</Label>
                   <Select
@@ -278,7 +278,7 @@ export default function NewProductPage() {
               <CardHeader>
                 <CardTitle>Status</CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4">
+              <CardContent className="space-y-4 p-4 lg:p-6">
                 <div className="flex items-center space-x-2">
                   <Checkbox
                     id="published"

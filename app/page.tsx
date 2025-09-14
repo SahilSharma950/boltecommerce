@@ -122,14 +122,14 @@ export default function HomePage() {
                 <TrendingUp className="mr-1 h-4 w-4" />
                 Featured
               </Badge>
-              <h2 className="text-3xl font-bold text-gray-900 mb-4">
+              <h2 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-4">
                 Trending Products
               </h2>
               <p className="text-gray-600 max-w-2xl mx-auto">
                 Hand-picked items that our customers love most
               </p>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-8">
               {featuredProducts.map((product) => (
                 <ProductCard key={product.id} product={product} />
               ))}
@@ -142,12 +142,12 @@ export default function HomePage() {
       <section id="products" className="py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-8">
-            <h2 className="text-3xl font-bold text-gray-900 mb-6">
+            <h2 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-6">
               All Products
             </h2>
             
             {/* Filters */}
-            <div className="flex flex-col lg:flex-row gap-4 mb-8">
+            <div className="flex flex-col sm:flex-row gap-4 mb-8">
               <div className="flex-1">
                 <SearchBar 
                   value={searchQuery}
@@ -155,7 +155,7 @@ export default function HomePage() {
                   placeholder="Search products..."
                 />
               </div>
-              <div className="lg:w-64">
+              <div className="sm:w-64">
                 <CategoryFilter
                   categories={categories}
                   selectedCategory={selectedCategory}
@@ -186,7 +186,7 @@ export default function HomePage() {
 
           {/* Products Grid */}
           {loading ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 lg:gap-8">
               {Array.from({ length: 8 }).map((_, i) => (
                 <div key={i} className="space-y-4">
                   <Skeleton className="h-64 w-full rounded-lg" />
@@ -196,7 +196,7 @@ export default function HomePage() {
               ))}
             </div>
           ) : products.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 lg:gap-8">
               {products.map((product) => (
                 <ProductCard key={product.id} product={product} />
               ))}

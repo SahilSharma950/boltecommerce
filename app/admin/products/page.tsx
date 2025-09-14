@@ -106,10 +106,10 @@ export default function AdminProductsPage() {
   };
 
   return (
-    <div className="px-8">
+    <div className="px-4 lg:px-8">
       <div className="flex justify-between items-center mb-8">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Products</h1>
+          <h1 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-2">Products</h1>
           <p className="text-gray-600">Manage your product catalog</p>
         </div>
         <Button asChild>
@@ -158,23 +158,132 @@ export default function AdminProductsPage() {
               ))}
             </div>
           ) : products.length > 0 ? (
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Product</TableHead>
-                  <TableHead>Category</TableHead>
-                  <TableHead>Price</TableHead>
-                  <TableHead>Inventory</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead>Actions</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
+            <>
+              {/* Desktop Table */}
+              <div className="hidden lg:block">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Product</TableHead>
+                      <TableHead>Category</TableHead>
+                      <TableHead>Price</TableHead>
+                      <TableHead>Inventory</TableHead>
+                      <TableHead>Status</TableHead>
+                      <TableHead>Actions</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {products.map((product) => (
+                      <TableRow key={product.id}>
+                        <TableCell>
+                          <div className="flex items-center space-x-3">
+                            <div className="relative h-12 w-12 bg-gray-100 rounded overflow-hidden">
+                              {product.images[0] ? (
+                                <Image
+                                  src={product.images[0]}
+                                  alt={product.name}
+                                  fill
+                                  className="object-cover"
+                                />
+                              ) : (
+                                <div className="flex items-center justify-center h-full">
+                                  <Package className="h-6 w-6 text-gray-400" />
+                                </div>
+                              )}
+                            </div>
+                            <div>
+                              <p className="font-medium text-gray-900">{product.name}</p>
+                              <p className="text-sm text-gray-500">SKU: {product.sku}</p>
+                            </div>
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          <Badge variant="secondary">{product.category.name}</Badge>
+                        </TableCell>
+                        <TableCell>
+                          <div>
+                            <p className="font-medium">${product.price.toFixed(2)}</p>
+                            {product.comparePrice && (
+                              <p className="text-sm text-gray-500 line-through">
+                                ${product.comparePrice.toFixed(2)}
+                              </p>
+                            )}
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          <Badge 
+                            variant={product.inventory > 10 ? "secondary" : product.inventory > 0 ? "outline" : "destructive"}
+                          >
+                            {product.inventory} in stock
+                          </Badge>
+                        </TableCell>
+                        <TableCell>
+                          <div className="flex flex-col gap-1">
+                            <Badge variant={product.published ? "secondary" : "outline"}>
+                              {product.published ? 'Published' : 'Draft'}
+                            </Badge>
+                            {product.featured && (
+                              <Badge className="bg-yellow-100 text-yellow-800">
+                                Featured
+                              </Badge>
+                            )}
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          <div className="flex items-center space-x-2">
+                            <Button variant="ghost" size="sm" asChild>
+                              <Link href={`/products/${product.slug}`} target="_blank">
+                                <Eye className="h-4 w-4" />
+                              </Link>
+                            </Button>
+                            <Button variant="ghost" size="sm" asChild>
+                              <Link href={`/admin/products/${product.id}/edit`}>
+                                <Edit className="h-4 w-4" />
+                              </Link>
+                            </Button>
+                            <AlertDialog>
+                              <AlertDialogTrigger asChild>
+                                <Button 
+                                  variant="ghost" 
+                                  size="sm"
+                                  disabled={deletingId === product.id}
+                                >
+                                  <Trash2 className="h-4 w-4 text-red-600" />
+                                </Button>
+                              </AlertDialogTrigger>
+                              <AlertDialogContent>
+                                <AlertDialogHeader>
+                                  <AlertDialogTitle>Delete Product</AlertDialogTitle>
+                                  <AlertDialogDescription>
+                                    Are you sure you want to delete "{product.name}"? This action cannot be undone.
+                                  </AlertDialogDescription>
+                                </AlertDialogHeader>
+                                <AlertDialogFooter>
+                                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                  <AlertDialogAction
+                                    onClick={() => handleDelete(product.id)}
+                                    className="bg-red-600 hover:bg-red-700"
+                                  >
+                                    Delete
+                                  </AlertDialogAction>
+                                </AlertDialogFooter>
+                              </AlertDialogContent>
+                            </AlertDialog>
+                          </div>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </div>
+
+              {/* Mobile Cards */}
+              <div className="lg:hidden space-y-4">
                 {products.map((product) => (
-                  <TableRow key={product.id}>
-                    <TableCell>
-                      <div className="flex items-center space-x-3">
-                        <div className="relative h-12 w-12 bg-gray-100 rounded overflow-hidden">
+                  <Card key={product.id}>
+                    <CardContent className="p-4">
+                      <div className="flex items-start space-x-3">
+                        <div className="relative h-16 w-16 bg-gray-100 rounded overflow-hidden flex-shrink-0">
                           {product.images[0] ? (
                             <Image
                               src={product.images[0]}
@@ -184,94 +293,90 @@ export default function AdminProductsPage() {
                             />
                           ) : (
                             <div className="flex items-center justify-center h-full">
-                              <Package className="h-6 w-6 text-gray-400" />
+                              <Package className="h-8 w-8 text-gray-400" />
                             </div>
                           )}
                         </div>
-                        <div>
-                          <p className="font-medium text-gray-900">{product.name}</p>
-                          <p className="text-sm text-gray-500">SKU: {product.sku}</p>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-start justify-between mb-2">
+                            <div className="min-w-0 flex-1">
+                              <p className="font-medium text-gray-900 truncate">{product.name}</p>
+                              <p className="text-sm text-gray-500">SKU: {product.sku}</p>
+                            </div>
+                            <div className="flex items-center space-x-1 ml-2">
+                              <Button variant="ghost" size="sm" asChild>
+                                <Link href={`/products/${product.slug}`} target="_blank">
+                                  <Eye className="h-4 w-4" />
+                                </Link>
+                              </Button>
+                              <Button variant="ghost" size="sm" asChild>
+                                <Link href={`/admin/products/${product.id}/edit`}>
+                                  <Edit className="h-4 w-4" />
+                                </Link>
+                              </Button>
+                              <AlertDialog>
+                                <AlertDialogTrigger asChild>
+                                  <Button 
+                                    variant="ghost" 
+                                    size="sm"
+                                    disabled={deletingId === product.id}
+                                  >
+                                    <Trash2 className="h-4 w-4 text-red-600" />
+                                  </Button>
+                                </AlertDialogTrigger>
+                                <AlertDialogContent>
+                                  <AlertDialogHeader>
+                                    <AlertDialogTitle>Delete Product</AlertDialogTitle>
+                                    <AlertDialogDescription>
+                                      Are you sure you want to delete "{product.name}"? This action cannot be undone.
+                                    </AlertDialogDescription>
+                                  </AlertDialogHeader>
+                                  <AlertDialogFooter>
+                                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                    <AlertDialogAction
+                                      onClick={() => handleDelete(product.id)}
+                                      className="bg-red-600 hover:bg-red-700"
+                                    >
+                                      Delete
+                                    </AlertDialogAction>
+                                  </AlertDialogFooter>
+                                </AlertDialogContent>
+                              </AlertDialog>
+                            </div>
+                          </div>
+                          <div className="flex flex-wrap items-center gap-2 mb-2">
+                            <Badge variant="secondary">{product.category.name}</Badge>
+                            <Badge variant={product.published ? "secondary" : "outline"}>
+                              {product.published ? 'Published' : 'Draft'}
+                            </Badge>
+                            {product.featured && (
+                              <Badge className="bg-yellow-100 text-yellow-800">
+                                Featured
+                              </Badge>
+                            )}
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <div>
+                              <p className="font-medium">${product.price.toFixed(2)}</p>
+                              {product.comparePrice && (
+                                <p className="text-sm text-gray-500 line-through">
+                                  ${product.comparePrice.toFixed(2)}
+                                </p>
+                              )}
+                            </div>
+                            <Badge 
+                              variant={product.inventory > 10 ? "secondary" : product.inventory > 0 ? "outline" : "destructive"}
+                            >
+                              {product.inventory} in stock
+                            </Badge>
+                          </div>
                         </div>
                       </div>
-                    </TableCell>
-                    <TableCell>
-                      <Badge variant="secondary">{product.category.name}</Badge>
-                    </TableCell>
-                    <TableCell>
-                      <div>
-                        <p className="font-medium">${product.price.toFixed(2)}</p>
-                        {product.comparePrice && (
-                          <p className="text-sm text-gray-500 line-through">
-                            ${product.comparePrice.toFixed(2)}
-                          </p>
-                        )}
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <Badge 
-                        variant={product.inventory > 10 ? "secondary" : product.inventory > 0 ? "outline" : "destructive"}
-                      >
-                        {product.inventory} in stock
-                      </Badge>
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex flex-col gap-1">
-                        <Badge variant={product.published ? "secondary" : "outline"}>
-                          {product.published ? 'Published' : 'Draft'}
-                        </Badge>
-                        {product.featured && (
-                          <Badge className="bg-yellow-100 text-yellow-800">
-                            Featured
-                          </Badge>
-                        )}
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex items-center space-x-2">
-                        <Button variant="ghost" size="sm" asChild>
-                          <Link href={`/products/${product.slug}`} target="_blank">
-                            <Eye className="h-4 w-4" />
-                          </Link>
-                        </Button>
-                        <Button variant="ghost" size="sm" asChild>
-                          <Link href={`/admin/products/${product.id}/edit`}>
-                            <Edit className="h-4 w-4" />
-                          </Link>
-                        </Button>
-                        <AlertDialog>
-                          <AlertDialogTrigger asChild>
-                            <Button 
-                              variant="ghost" 
-                              size="sm"
-                              disabled={deletingId === product.id}
-                            >
-                              <Trash2 className="h-4 w-4 text-red-600" />
-                            </Button>
-                          </AlertDialogTrigger>
-                          <AlertDialogContent>
-                            <AlertDialogHeader>
-                              <AlertDialogTitle>Delete Product</AlertDialogTitle>
-                              <AlertDialogDescription>
-                                Are you sure you want to delete "{product.name}"? This action cannot be undone.
-                              </AlertDialogDescription>
-                            </AlertDialogHeader>
-                            <AlertDialogFooter>
-                              <AlertDialogCancel>Cancel</AlertDialogCancel>
-                              <AlertDialogAction
-                                onClick={() => handleDelete(product.id)}
-                                className="bg-red-600 hover:bg-red-700"
-                              >
-                                Delete
-                              </AlertDialogAction>
-                            </AlertDialogFooter>
-                          </AlertDialogContent>
-                        </AlertDialog>
-                      </div>
-                    </TableCell>
-                  </TableRow>
+                    </CardContent>
+                  </Card>
                 ))}
-              </TableBody>
-            </Table>
+              </div>
+            </>
           ) : (
             <div className="text-center py-12">
               <Package className="mx-auto h-12 w-12 text-gray-400 mb-4" />

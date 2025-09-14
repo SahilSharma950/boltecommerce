@@ -124,9 +124,9 @@ export default function OrdersPage() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4 lg:py-8">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">Order History</h1>
+        <h1 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-2">Order History</h1>
         <p className="text-gray-600">
           Track and manage your orders
         </p>
@@ -136,9 +136,9 @@ export default function OrdersPage() {
         {orders.map((order) => (
           <Card key={order.id}>
             <CardHeader>
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+              <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
                 <div>
-                  <CardTitle className="text-lg">
+                  <CardTitle className="text-base lg:text-lg">
                     Order #{order.id.slice(-8).toUpperCase()}
                   </CardTitle>
                   <div className="flex items-center text-sm text-gray-600 mt-1">
@@ -146,7 +146,7 @@ export default function OrdersPage() {
                     {format(new Date(order.createdAt), 'MMM dd, yyyy')}
                   </div>
                 </div>
-                <div className="flex items-center gap-4">
+                <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
                   <Badge 
                     className={statusColors[order.status as keyof typeof statusColors]}
                     variant="secondary"
@@ -173,7 +173,7 @@ export default function OrdersPage() {
                     const imageUrl = item.product.images[0] || 'https://images.pexels.com/photos/90946/pexels-photo-90946.jpeg';
                     
                     return (
-                      <div key={item.id} className="flex items-center space-x-4">
+                      <div key={item.id} className="flex items-center space-x-3 lg:space-x-4">
                         <div className="relative h-16 w-16 bg-gray-100 rounded-lg overflow-hidden">
                           <Image
                             src={imageUrl}
@@ -185,7 +185,7 @@ export default function OrdersPage() {
                         <div className="flex-1 min-w-0">
                           <Link 
                             href={`/products/${item.product.slug}`}
-                            className="font-medium text-gray-900 hover:text-indigo-600 transition-colors"
+                            className="font-medium text-gray-900 hover:text-indigo-600 transition-colors block truncate"
                           >
                             {item.product.name}
                           </Link>
@@ -193,7 +193,7 @@ export default function OrdersPage() {
                             Quantity: {item.quantity} × ${item.price.toFixed(2)}
                           </p>
                         </div>
-                        <div className="text-right">
+                        <div className="text-right flex-shrink-0">
                           <p className="font-medium">
                             ${(item.price * item.quantity).toFixed(2)}
                           </p>

@@ -80,13 +80,13 @@ export default function AdminDashboard() {
 
   if (loading) {
     return (
-      <div className="px-8">
+      <div className="px-4 lg:px-8">
         <div className="mb-8">
           <Skeleton className="h-8 w-48 mb-2" />
           <Skeleton className="h-4 w-96" />
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 mb-8">
           {Array.from({ length: 4 }).map((_, i) => (
             <Card key={i}>
               <CardContent className="p-6">
@@ -102,58 +102,58 @@ export default function AdminDashboard() {
   }
 
   return (
-    <div className="px-8">
+    <div className="px-4 lg:px-8">
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-gray-900 mb-2">Dashboard</h1>
         <p className="text-gray-600">Welcome to your admin dashboard</p>
       </div>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 mb-8">
         <Card>
-          <CardContent className="p-6">
+          <CardContent className="p-4 lg:p-6">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-gray-600">Total Products</p>
-                <p className="text-2xl font-bold text-gray-900">{stats?.totalProducts || 0}</p>
+                <p className="text-xl lg:text-2xl font-bold text-gray-900">{stats?.totalProducts || 0}</p>
               </div>
-              <Package className="h-12 w-12 text-indigo-600" />
+              <Package className="h-8 w-8 lg:h-12 lg:w-12 text-indigo-600" />
             </div>
           </CardContent>
         </Card>
 
         <Card>
-          <CardContent className="p-6">
+          <CardContent className="p-4 lg:p-6">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-gray-600">Categories</p>
-                <p className="text-2xl font-bold text-gray-900">{stats?.totalCategories || 0}</p>
+                <p className="text-xl lg:text-2xl font-bold text-gray-900">{stats?.totalCategories || 0}</p>
               </div>
-              <FolderOpen className="h-12 w-12 text-green-600" />
+              <FolderOpen className="h-8 w-8 lg:h-12 lg:w-12 text-green-600" />
             </div>
           </CardContent>
         </Card>
 
         <Card>
-          <CardContent className="p-6">
+          <CardContent className="p-4 lg:p-6">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-gray-600">Total Orders</p>
-                <p className="text-2xl font-bold text-gray-900">{stats?.totalOrders || 0}</p>
+                <p className="text-xl lg:text-2xl font-bold text-gray-900">{stats?.totalOrders || 0}</p>
               </div>
-              <ShoppingCart className="h-12 w-12 text-purple-600" />
+              <ShoppingCart className="h-8 w-8 lg:h-12 lg:w-12 text-purple-600" />
             </div>
           </CardContent>
         </Card>
 
         <Card>
-          <CardContent className="p-6">
+          <CardContent className="p-4 lg:p-6">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-gray-600">Revenue</p>
-                <p className="text-2xl font-bold text-gray-900">${stats?.totalRevenue?.toLocaleString() || 0}</p>
+                <p className="text-xl lg:text-2xl font-bold text-gray-900">${stats?.totalRevenue?.toLocaleString() || 0}</p>
               </div>
-              <DollarSign className="h-12 w-12 text-yellow-600" />
+              <DollarSign className="h-8 w-8 lg:h-12 lg:w-12 text-yellow-600" />
             </div>
           </CardContent>
         </Card>
@@ -171,15 +171,15 @@ export default function AdminDashboard() {
           {stats?.recentOrders && stats.recentOrders.length > 0 ? (
             <div className="space-y-4">
               {stats.recentOrders.map((order) => (
-                <div key={order.id} className="flex items-center justify-between p-4 border rounded-lg">
-                  <div>
+                <div key={order.id} className="flex flex-col sm:flex-row sm:items-center justify-between p-4 border rounded-lg gap-3">
+                  <div className="min-w-0 flex-1">
                     <p className="font-medium">Order #{order.id.slice(-8).toUpperCase()}</p>
-                    <p className="text-sm text-gray-600">{order.user.name} • {order.user.email}</p>
+                    <p className="text-sm text-gray-600 truncate">{order.user.name} • {order.user.email}</p>
                     <p className="text-xs text-gray-500">
                       {new Date(order.createdAt).toLocaleDateString()}
                     </p>
                   </div>
-                  <div className="text-right">
+                  <div className="text-left sm:text-right flex-shrink-0">
                     <p className="font-semibold">${order.total.toFixed(2)}</p>
                     <Badge 
                       className={statusColors[order.status as keyof typeof statusColors]}

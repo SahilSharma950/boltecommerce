@@ -158,9 +158,9 @@ export default function ProductPage() {
     : ['https://images.pexels.com/photos/90946/pexels-photo-90946.jpeg'];
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 lg:py-8">
       {/* Breadcrumb */}
-      <nav className="flex items-center space-x-2 text-sm text-gray-600 mb-8">
+      <nav className="flex items-center space-x-2 text-sm text-gray-600 mb-4 lg:mb-8 overflow-x-auto">
         <Link href="/" className="hover:text-indigo-600">Home</Link>
         <span>/</span>
         <Link href={`/?category=${product.category.slug}`} className="hover:text-indigo-600">
@@ -170,7 +170,7 @@ export default function ProductPage() {
         <span className="text-gray-900">{product.name}</span>
       </nav>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-12">
         {/* Product Images */}
         <div className="space-y-4">
           <div className="aspect-square relative bg-gray-100 rounded-lg overflow-hidden">
@@ -194,7 +194,7 @@ export default function ProductPage() {
           </div>
           
           {images.length > 1 && (
-            <div className="grid grid-cols-4 gap-4">
+            <div className="grid grid-cols-4 gap-2 lg:gap-4">
               {images.map((image, index) => (
                 <button
                   key={index}
@@ -221,16 +221,16 @@ export default function ProductPage() {
             <Badge variant="secondary" className="mb-2">
               {product.category.name}
             </Badge>
-            <h1 className="text-3xl font-bold text-gray-900 mb-4">
+            <h1 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-4">
               {product.name}
             </h1>
             
             <div className="flex items-center gap-4 mb-6">
-              <span className="text-3xl font-bold text-gray-900">
+              <span className="text-2xl lg:text-3xl font-bold text-gray-900">
                 ${product.price.toFixed(2)}
               </span>
               {product.comparePrice && (
-                <span className="text-xl text-gray-500 line-through">
+                <span className="text-lg lg:text-xl text-gray-500 line-through">
                   ${product.comparePrice.toFixed(2)}
                 </span>
               )}
@@ -250,7 +250,7 @@ export default function ProductPage() {
 
           {/* Quantity Selector */}
           <div className="space-y-4">
-            <div className="flex items-center space-x-4">
+            <div className="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-4">
               <span className="font-medium">Quantity:</span>
               <div className="flex items-center border rounded-lg">
                 <Button
@@ -271,7 +271,7 @@ export default function ProductPage() {
                   <Plus className="h-4 w-4" />
                 </Button>
               </div>
-              <span className="text-sm text-gray-600">
+              <span className="text-sm text-gray-600 sm:ml-auto">
                 {product.inventory} in stock
               </span>
             </div>
@@ -298,23 +298,23 @@ export default function ProductPage() {
           <Separator />
 
           {/* Features */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 lg:gap-4">
             <Card>
-              <CardContent className="p-4 text-center">
+              <CardContent className="p-3 lg:p-4 text-center">
                 <Truck className="h-8 w-8 text-indigo-600 mx-auto mb-2" />
                 <h4 className="font-medium mb-1">Free Shipping</h4>
                 <p className="text-sm text-gray-600">On orders over $100</p>
               </CardContent>
             </Card>
             <Card>
-              <CardContent className="p-4 text-center">
+              <CardContent className="p-3 lg:p-4 text-center">
                 <Shield className="h-8 w-8 text-indigo-600 mx-auto mb-2" />
                 <h4 className="font-medium mb-1">Secure Payment</h4>
                 <p className="text-sm text-gray-600">SSL encrypted</p>
               </CardContent>
             </Card>
             <Card>
-              <CardContent className="p-4 text-center">
+              <CardContent className="p-3 lg:p-4 text-center">
                 <Package className="h-8 w-8 text-indigo-600 mx-auto mb-2" />
                 <h4 className="font-medium mb-1">Easy Returns</h4>
                 <p className="text-sm text-gray-600">30-day policy</p>

@@ -147,10 +147,10 @@ export default function AdminCategoriesPage() {
   };
 
   return (
-    <div className="px-8">
+    <div className="px-4 lg:px-8">
       <div className="flex justify-between items-center mb-8">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Categories</h1>
+          <h1 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-2">Categories</h1>
           <p className="text-gray-600">Organize your products into categories</p>
         </div>
         <Dialog open={dialogOpen} onOpenChange={(open) => {
@@ -215,10 +215,10 @@ export default function AdminCategoriesPage() {
 
       {/* Categories Grid */}
       {loading ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
           {Array.from({ length: 6 }).map((_, i) => (
             <Card key={i}>
-              <CardContent className="p-6">
+              <CardContent className="p-4 lg:p-6">
                 <Skeleton className="h-32 w-full mb-4 rounded" />
                 <Skeleton className="h-4 w-3/4 mb-2" />
                 <Skeleton className="h-4 w-1/2" />
@@ -227,7 +227,7 @@ export default function AdminCategoriesPage() {
           ))}
         </div>
       ) : categories.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
           {categories.map((category) => (
             <Card key={category.id} className="overflow-hidden">
               <div className="relative h-32 bg-gray-100">
@@ -244,23 +244,23 @@ export default function AdminCategoriesPage() {
                   </div>
                 )}
               </div>
-              <CardContent className="p-4">
+              <CardContent className="p-3 lg:p-4">
                 <div className="flex justify-between items-start mb-2">
-                  <h3 className="font-semibold text-lg text-gray-900">{category.name}</h3>
+                  <h3 className="font-semibold text-base lg:text-lg text-gray-900 truncate pr-2">{category.name}</h3>
                   <Badge variant="secondary">
                     {category._count.products} products
                   </Badge>
                 </div>
                 {category.description && (
-                  <p className="text-gray-600 text-sm mb-4 line-clamp-2">
+                  <p className="text-gray-600 text-sm mb-3 lg:mb-4 line-clamp-2">
                     {category.description}
                   </p>
                 )}
-                <div className="flex justify-between items-center">
+                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
                   <p className="text-xs text-gray-500">
                     Created {new Date(category.createdAt).toLocaleDateString()}
                   </p>
-                  <div className="flex space-x-2">
+                  <div className="flex space-x-1 sm:space-x-2">
                     <Button
                       variant="ghost"
                       size="sm"

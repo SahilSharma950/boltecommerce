@@ -159,17 +159,17 @@ export default function AdminOrdersPage() {
   };
 
   return (
-    <div className="px-8">
+    <div className="px-4 lg:px-8">
       <div className="flex justify-between items-center mb-8">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Orders</h1>
+          <h1 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-2">Orders</h1>
           <p className="text-gray-600">Manage customer orders and fulfillment</p>
         </div>
       </div>
 
       {/* Filters */}
       <Card className="mb-6">
-        <CardContent className="p-6">
+        <CardContent className="p-4 lg:p-6">
           <div className="flex flex-col sm:flex-row gap-4">
             <div className="flex-1">
               <Select value={selectedStatus} onValueChange={setSelectedStatus}>
@@ -211,76 +211,135 @@ export default function AdminOrdersPage() {
               ))}
             </div>
           ) : orders.length > 0 ? (
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Order</TableHead>
-                  <TableHead>Customer</TableHead>
-                  <TableHead>Date</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead>Total</TableHead>
-                  <TableHead>Actions</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
+            <>
+              {/* Desktop Table */}
+              <div className="hidden lg:block">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Order</TableHead>
+                      <TableHead>Customer</TableHead>
+                      <TableHead>Date</TableHead>
+                      <TableHead>Status</TableHead>
+                      <TableHead>Total</TableHead>
+                      <TableHead>Actions</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {orders.map((order) => (
+                      <TableRow key={order.id}>
+                        <TableCell>
+                          <div>
+                            <p className="font-medium">#{order.id.slice(-8).toUpperCase()}</p>
+                            <p className="text-sm text-gray-500">
+                              {order.items.length} item{order.items.length !== 1 ? 's' : ''}
+                            </p>
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          <div>
+                            <p className="font-medium">{order.user.name}</p>
+                            <p className="text-sm text-gray-500">{order.user.email}</p>
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          <div className="flex items-center text-sm text-gray-600">
+                            <Calendar className="mr-1 h-4 w-4" />
+                            {format(new Date(order.createdAt), 'MMM dd, yyyy')}
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          <Badge 
+                            className={statusColors[order.status as keyof typeof statusColors]}
+                            variant="secondary"
+                          >
+                            {order.status.toLowerCase()}
+                          </Badge>
+                        </TableCell>
+                        <TableCell>
+                          <div className="flex items-center font-medium">
+                            <DollarSign className="mr-1 h-4 w-4" />
+                            {order.total.toFixed(2)}
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          <div className="flex items-center space-x-2">
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => openOrderDialog(order)}
+                            >
+                              <Eye className="h-4 w-4" />
+                            </Button>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => openOrderDialog(order)}
+                            >
+                              <Edit className="h-4 w-4" />
+                            </Button>
+                          </div>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </div>
+
+              {/* Mobile Cards */}
+              <div className="lg:hidden space-y-4">
                 {orders.map((order) => (
-                  <TableRow key={order.id}>
-                    <TableCell>
-                      <div>
-                        <p className="font-medium">#{order.id.slice(-8).toUpperCase()}</p>
+                  <Card key={order.id}>
+                    <CardContent className="p-4">
+                      <div className="flex items-start justify-between mb-3">
+                        <div className="min-w-0 flex-1">
+                          <p className="font-medium">#{order.id.slice(-8).toUpperCase()}</p>
+                          <p className="text-sm text-gray-500 truncate">{order.user.name}</p>
+                          <p className="text-xs text-gray-500 truncate">{order.user.email}</p>
+                        </div>
+                        <div className="flex items-center space-x-1 ml-2">
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => openOrderDialog(order)}
+                          >
+                            <Eye className="h-4 w-4" />
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => openOrderDialog(order)}
+                          >
+                            <Edit className="h-4 w-4" />
+                          </Button>
+                        </div>
+                      </div>
+                      <div className="flex items-center justify-between mb-2">
+                        <div className="flex items-center text-sm text-gray-600">
+                          <Calendar className="mr-1 h-4 w-4" />
+                          {format(new Date(order.createdAt), 'MMM dd, yyyy')}
+                        </div>
+                        <Badge 
+                          className={statusColors[order.status as keyof typeof statusColors]}
+                          variant="secondary"
+                        >
+                          {order.status.toLowerCase()}
+                        </Badge>
+                      </div>
+                      <div className="flex items-center justify-between">
                         <p className="text-sm text-gray-500">
                           {order.items.length} item{order.items.length !== 1 ? 's' : ''}
                         </p>
+                        <div className="flex items-center font-medium">
+                          <DollarSign className="mr-1 h-4 w-4" />
+                          {order.total.toFixed(2)}
+                        </div>
                       </div>
-                    </TableCell>
-                    <TableCell>
-                      <div>
-                        <p className="font-medium">{order.user.name}</p>
-                        <p className="text-sm text-gray-500">{order.user.email}</p>
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex items-center text-sm text-gray-600">
-                        <Calendar className="mr-1 h-4 w-4" />
-                        {format(new Date(order.createdAt), 'MMM dd, yyyy')}
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <Badge 
-                        className={statusColors[order.status as keyof typeof statusColors]}
-                        variant="secondary"
-                      >
-                        {order.status.toLowerCase()}
-                      </Badge>
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex items-center font-medium">
-                        <DollarSign className="mr-1 h-4 w-4" />
-                        {order.total.toFixed(2)}
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex items-center space-x-2">
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => openOrderDialog(order)}
-                        >
-                          <Eye className="h-4 w-4" />
-                        </Button>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => openOrderDialog(order)}
-                        >
-                          <Edit className="h-4 w-4" />
-                        </Button>
-                      </div>
-                    </TableCell>
-                  </TableRow>
+                    </CardContent>
+                  </Card>
                 ))}
-              </TableBody>
-            </Table>
+              </div>
+            </>
           ) : (
             <div className="text-center py-12">
               <ShoppingCart className="mx-auto h-12 w-12 text-gray-400 mb-4" />

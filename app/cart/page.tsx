@@ -177,15 +177,15 @@ export default function CartPage() {
   const total = subtotal + tax + shipping;
 
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4 lg:py-8">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">Shopping Cart</h1>
+        <h1 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-2">Shopping Cart</h1>
         <p className="text-gray-600">
           {cart.itemCount} {cart.itemCount === 1 ? 'item' : 'items'} in your cart
         </p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-8">
         {/* Cart Items */}
         <div className="lg:col-span-2 space-y-4">
           {cart.items.map((item) => {
@@ -194,8 +194,8 @@ export default function CartPage() {
             
             return (
               <Card key={item.id} className={isUpdating ? 'opacity-50' : ''}>
-                <CardContent className="p-6">
-                  <div className="flex items-center space-x-4">
+                <CardContent className="p-4 lg:p-6">
+                  <div className="flex flex-col sm:flex-row sm:items-center space-y-4 sm:space-y-0 sm:space-x-4">
                     <div className="relative h-20 w-20 bg-gray-100 rounded-lg overflow-hidden">
                       <Image
                         src={imageUrl}
@@ -205,10 +205,10 @@ export default function CartPage() {
                       />
                     </div>
                     
-                    <div className="flex-1 min-w-0">
+                    <div className="flex-1 min-w-0 sm:mr-4">
                       <Link 
                         href={`/products/${item.product.slug}`}
-                        className="text-lg font-semibold text-gray-900 hover:text-indigo-600 transition-colors"
+                        className="text-base lg:text-lg font-semibold text-gray-900 hover:text-indigo-600 transition-colors block"
                       >
                         {item.product.name}
                       </Link>
@@ -222,7 +222,8 @@ export default function CartPage() {
                       )}
                     </div>
 
-                    <div className="flex items-center space-x-2">
+                    <div className="flex items-center justify-between sm:justify-start sm:space-x-4">
+                      <div className="flex items-center space-x-2">
                       <Button
                         variant="outline"
                         size="sm"
@@ -242,12 +243,12 @@ export default function CartPage() {
                       >
                         <Plus className="h-4 w-4" />
                       </Button>
-                    </div>
+                      </div>
 
-                    <div className="text-right">
-                      <p className="text-lg font-semibold text-gray-900">
+                      <div className="text-right">
+                        <p className="text-base lg:text-lg font-semibold text-gray-900">
                         ${(item.product.price * item.quantity).toFixed(2)}
-                      </p>
+                        </p>
                       <Button
                         variant="ghost"
                         size="sm"
@@ -258,6 +259,7 @@ export default function CartPage() {
                         <Trash2 className="h-4 w-4 mr-1" />
                         Remove
                       </Button>
+                      </div>
                     </div>
                   </div>
                 </CardContent>
@@ -268,7 +270,7 @@ export default function CartPage() {
 
         {/* Order Summary */}
         <div className="lg:col-span-1">
-          <Card className="sticky top-8">
+          <Card className="lg:sticky lg:top-8">
             <CardHeader>
               <CardTitle>Order Summary</CardTitle>
             </CardHeader>

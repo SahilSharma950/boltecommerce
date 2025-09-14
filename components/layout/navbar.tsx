@@ -71,12 +71,14 @@ export function Navbar() {
             >
               Home
             </Link>
-            <Link 
-              href="/products" 
-              className="text-gray-700 hover:text-indigo-600 font-medium transition-colors"
-            >
-              Products
-            </Link>
+            {session?.user?.role === 'ADMIN' && (
+              <Link 
+                href="/admin" 
+                className="text-gray-700 hover:text-indigo-600 font-medium transition-colors"
+              >
+                Admin
+              </Link>
+            )}
           </div>
 
           {/* Right Side Actions */}
@@ -116,6 +118,17 @@ export function Navbar() {
                       Order History
                     </Link>
                   </DropdownMenuItem>
+                  {session.user.role === 'ADMIN' && (
+                    <>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem asChild>
+                        <Link href="/admin" className="flex items-center">
+                          <Store className="mr-2 h-4 w-4" />
+                          Admin Panel
+                        </Link>
+                      </DropdownMenuItem>
+                    </>
+                  )}
                   <DropdownMenuSeparator />
                   <DropdownMenuItem onClick={handleSignOut} className="text-red-600">
                     <LogOut className="mr-2 h-4 w-4" />
@@ -150,13 +163,6 @@ export function Navbar() {
                   >
                     Home
                   </Link>
-                  <Link 
-                    href="/products" 
-                    className="text-lg font-medium text-gray-900 hover:text-indigo-600"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    Products
-                  </Link>
                   {session && (
                     <>
                       <Link 
@@ -174,6 +180,15 @@ export function Navbar() {
                       >
                         Orders
                       </Link>
+                      {session.user.role === 'ADMIN' && (
+                        <Link 
+                          href="/admin" 
+                          className="text-lg font-medium text-gray-900 hover:text-indigo-600"
+                          onClick={() => setMobileMenuOpen(false)}
+                        >
+                          Admin Panel
+                        </Link>
+                      )}
                     </>
                   )}
                 </div>
